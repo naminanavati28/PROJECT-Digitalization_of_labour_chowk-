@@ -1,0 +1,10 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /aadhaar/{allPaths=**} {
+      // Backend uploads via Admin SDK; client read for display
+      allow read: if true;
+      allow write: if false;  // Only server (Admin SDK) can write
+    }
+  }
+}
