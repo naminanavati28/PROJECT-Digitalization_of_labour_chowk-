@@ -1,0 +1,118 @@
+{% extends "base_app.html" %}
+{% block title %}Complete Job | Kaam Bharat{% endblock %}
+{% block extra_css %}
+<style>
+    .complete-wrapper {
+        max-width: 520px;
+        margin: auto;
+        padding: 24px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 22px;
+        padding: 32px;
+        box-shadow: 0 25px 55px rgba(2, 6, 23, 0.4);
+    }
+
+    .card h2 {
+        margin: 0 0 22px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: #020617;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        display: block;
+        color: #020617;
+    }
+
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid #cbd5e1;
+        font-size: 14px;
+        margin-bottom: 16px;
+        background: #fff;
+    }
+
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #020617;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #e5e7eb;
+        margin: 20px 0;
+    }
+
+    h4 {
+        margin: 0 0 14px;
+        font-size: 15px;
+        font-weight: 800;
+        color: #960018;
+    }
+
+    button {
+        width: 100%;
+        padding: 18px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, #2157c3, #2157c3);
+        color: #fcfdfe;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.95;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="complete-wrapper">
+    <div class="card">
+        <h2>Complete Job & Give Feedback</h2>
+        <form method="POST" action="/manager/complete-job/{{ job.id }}">
+            <label>Rating (1–5)</label>
+            <select name="rating" required>
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label>Feedback</label>
+            <textarea name="feedback" rows="4" required></textarea>
+            <hr>
+            <h4>Report Worker (Optional)</h4>
+            <label>Reason</label>
+            <select name="report_reason">
+                <option value="">-- Select reason --</option>
+                <option value="Absent from work">Absent from work</option>
+                <option value="Late arrival">Late arrival</option>
+                <option value="Misbehavior">Misbehavior</option>
+                <option value="Poor quality of work">Poor quality of work</option>
+            </select>
+            <label>Additional Details</label>
+            <textarea name="report_description" rows="3"></textarea>
+            <button type="submit">Complete Job</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

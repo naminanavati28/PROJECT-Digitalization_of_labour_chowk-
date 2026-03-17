@@ -1,0 +1,327 @@
+{% extends "base_app.html" %}
+{% block title %}Find Jobs | Kaam Bharat{% endblock %}
+{% block extra_css %}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 24px;
+    }
+
+    .top-bar {
+        background: #fff;
+        padding: 16px 22px;
+        border-radius: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 26px;
+        box-shadow: 0 20px 40px rgba(2, 6, 23, 0.25);
+    }
+
+    .top-bar h2 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: #020617;
+    }
+
+    .action-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 26px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        height: 46px;
+        padding: 0 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 10px;
+        text-decoration: none;
+        white-space: nowrap;
+        width: auto;
+    }
+
+    .btn-primary {
+        background: #2563eb;
+        color: #fff;
+        min-width: 260px;
+    }
+
+    .btn-success {
+        background: #16a34a;
+        color: #fff;
+        min-width: 180px;
+    }
+
+    .filter-card {
+        background: #fff;
+        padding: 22px;
+        border-radius: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 32px;
+        box-shadow: 0 20px 40px rgba(2, 6, 23, 0.25);
+    }
+
+    .filter-card input,
+    .filter-card select {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        font-size: 14px;
+    }
+
+    .jobs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
+    }
+
+    .job-card {
+        background: #fff;
+        border-radius: 26px;
+        padding: 26px;
+        box-shadow: 0 28px 60px rgba(2, 6, 23, 0.35);
+    }
+
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+    .job-header h3 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 900;
+        color: #020617;
+    }
+
+    .wage-box {
+        background: linear-gradient(135deg, #16a34a, #22c55e);
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    .category {
+        font-size: 14px;
+        font-weight: 800;
+        color: #2563eb;
+        margin-bottom: 6px;
+    }
+
+    .location {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(37, 99, 235, 0.12);
+        padding: 6px 10px;
+        border-radius: 10px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .job-row {
+        font-size: 14.5px;
+        color: #475569;
+        margin: 6px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .benefits {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .benefit {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .benefit.yes {
+        background: rgba(34, 197, 94, 0.2);
+        color: #15803d;
+    }
+
+    .benefit.no {
+        background: rgba(239, 68, 68, 0.2);
+        color: #b91c1c;
+    }
+
+    .job-actions {
+        margin-top: 18px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .status {
+        font-weight: 900;
+        font-size: 14px;
+    }
+
+    .status.pending {
+        color: #92400e;
+        background: rgba(234, 179, 8, 0.15);
+        padding: 6px 12px;
+        border-radius: 999px;
+    }
+
+    .status.accepted {
+        color: #eab308;
+    }
+
+    .status.confirmed {
+        color: #16a34a;
+    }
+
+    .status.completed {
+        color: #374151;
+    }
+
+    .status.rejected {
+        color: #dc2626;
+    }
+
+    .worker-count {
+        display: inline-block;
+        background: rgba(253, 224, 71, 0.3);
+        color: #854d0e;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 800;
+        margin: 6px 0;
+    }
+
+    .empty-state {
+        background: #fff;
+        border-radius: 22px;
+        padding: 48px;
+        text-align: center;
+        color: #475569;
+        font-size: 15px;
+        box-shadow: 0 20px 40px rgba(2, 6, 23, 0.25);
+    }
+
+    @media (max-width: 900px) {
+        .jobs-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .action-row {
+            flex-direction: column;
+        }
+
+        .btn-primary,
+        .btn-success {
+            min-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="top-bar">
+        <h2>Hello, {{ worker_name }}</h2>
+    </div>
+    <div class="action-row">
+        <a href="/my-schedule" class="btn btn-primary">My Schedule</a>
+        <a href="/completed-jobs" class="btn btn-success">Completed Jobs</a>
+    </div>
+    <form class="filter-card" method="GET">
+        <input type="number" name="wage" min="0" placeholder="Daily Wage">
+        <input type="text" name="location" placeholder="Location">
+        <select name="category">
+            <option value="">Job Category</option>
+            <option>Factory & Warehouse work</option>
+            <option>Construction & labour work</option>
+            <option>Agricultural work</option>
+            <option>Outdoor work</option>
+            <option>Event & temporary work</option>
+        </select>
+        <select name="time">
+            <option value="">Time</option>
+            <option>Day</option>
+            <option>Night</option>
+        </select>
+        <button class="btn primary">Filter Jobs</button>
+    </form>
+    {% if jobs %}
+    <div class="jobs-grid">
+        {% for job in jobs %}
+        <div class="job-card">
+            <div class="job-header">
+                <h3>{{ job.title }}</h3>
+                <span class="wage-box">₹{{ job.wage }} / day</span>
+            </div>
+            <div class="category">{{ job.category }}</div>
+            <div class="location"><img src="/static/icons/location.png" width="14"> {{ job.location }}</div>
+            <p class="job-row"><img src="/static/icons/date.png" width="14"> {{ job.work_date }}</p>
+            <p class="job-row"><img src="/static/icons/time.png" width="14"> {{ job.start_time_ampm }} – {{
+                job.end_time_ampm }} ({{ job.shift_type }} Shift)</p>
+            <div class="worker-count">Workers: {{ job_capacity.get(job.id, 0) }} / {{ job.required_workers }}</div>
+            <div class="benefits">
+                <span class="benefit {% if job.food %}yes{% else %}no{% endif %}"><img src="/static/icons/food.png"
+                        width="14"> Food</span>
+                <span class="benefit {% if job.stay %}yes{% else %}no{% endif %}"><img src="/static/icons/stay.png"
+                        width="14"> Stay</span>
+                <span class="benefit {% if job.transport %}yes{% else %}no{% endif %}"><img
+                        src="/static/icons/transportation.png" width="14"> Transport</span>
+                <span class="benefit {% if job.esi_pf %}yes{% else %}no{% endif %}"><img src="/static/icons/esi.png"
+                        width="14"> ESI / PF</span>
+            </div>
+            <div class="job-actions">
+                {% if job.application_status == "not_applied" %}
+                <a href="/job/{{ job.id }}/interest" class="btn primary">Interested</a>
+                {% elif job.application_status == "pending" %}
+                <span class="status pending">Waiting for contractor approval</span>
+                <form action="/job/{{ job.id }}/revoke" method="post" style="display:inline;"><button type="submit"
+                        class="btn danger">Revoke</button></form>
+                {% elif job.application_status == "revoked" %}
+                <a href="/job/{{ job.id }}/interest" class="btn primary">Interested</a>
+                {% elif job.application_status == "accepted" %}
+                <span class="status accepted">Accepted</span>
+                <a href="/job/{{ job.id }}/details" class="btn secondary">Details</a>
+                {% elif job.application_status == "worker_confirmed" %}
+                <span class="status confirmed">Confirmed</span>
+                <a href="/job/{{ job.id }}/details" class="btn secondary">Details</a>
+                {% elif job.application_status == "completed" %}
+                <span class="status completed">Completed</span>
+                {% elif job.application_status == "rejected" %}
+                <span class="status rejected">Rejected</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">No jobs available</div>
+    {% endif %}
+</div>
+{% endblock %}

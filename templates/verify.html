@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Aadhaar Verification</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f7fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Identity Verification</h2>
+
+        <form id="verifyForm" enctype="multipart/form-data">
+            <input type="file" name="aadhaar" accept="image/*" required>
+            <input type="file" name="selfie" accept="image/*" required>
+            <button type="submit">Verify</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("verifyForm").onsubmit = async (e) => {
+            e.preventDefault();
+            let formData = new FormData(e.target);
+
+            let res = await fetch("/verify", { method: "POST", body: formData });
+            let data = await res.json();
+
+            document.getElementById("result").innerHTML =
+                `<span class="${data.status}">${data.msg}</span>`;
+        };
+    </script>
+
+</body>
+
+</html>

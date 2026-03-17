@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kaam Bharat | Login</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #eef3f8 0%, #4097f4 100%) no-repeat fixed;
+            color: #020617;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12);
+        }
+
+        .nav-left {
+            flex: 1;
+            display: flex;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-title {
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            animation: floatTitle 3s ease-in-out infinite;
+        }
+
+        .nav-title-kaam {
+            background: linear-gradient(135deg, #2157c3, #4097f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-title-bharat {
+            background: linear-gradient(135deg, #FF9933 0%, #FFB366 35%, rgba(255, 255, 255, 0.5) 48%, rgba(255, 255, 255, 0.5) 52%, #6BA84A 65%, #138808 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes floatTitle {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .nav-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .nav-left .nav-logo {
+            height: 48px;
+            width: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(33, 87, 195, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-left .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* HELPLINE CONTAINER */
+        .helpline-hover {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #2157c3, #4097f4);
+            color: #ffffff;
+            font-weight: 700;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            box-shadow: 0 8px 22px rgba(33, 87, 195, 0.45);
+        }
+
+        /* ICON */
+        .helpline-icon {
+            font-size: 16px;
+        }
+
+        /* TEXT */
+        .helpline-text {
+            white-space: nowrap;
+            transition: opacity 0.25s ease;
+        }
+
+        /* NUMBER (HIDDEN INITIALLY) */
+        .helpline-number {
+            position: absolute;
+            right: 16px;
+            opacity: 0;
+            transform: translateX(12px);
+            white-space: nowrap;
+            font-weight: 800;
+            transition: all 0.35s ease;
+        }
+
+        /* HOVER EFFECT */
+        .helpline-hover:hover {
+            padding-right: 150px;
+        }
+
+        /* FADE OUT "HELPLINE" */
+        .helpline-hover:hover .helpline-text {
+            opacity: 0;
+        }
+
+        /* SLIDE IN NUMBER */
+        .helpline-hover:hover .helpline-number {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* LOGIN / REGISTER BUTTON */
+        .login-hover {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            margin-right: 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #2157c3, #4097f4);
+            color: #ffffff;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            box-shadow: 0 8px 22px rgba(33, 87, 195, 0.45);
+        }
+
+        .login-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(33, 87, 195, 0.6);
+        }
+
+        .login-icon {
+            font-size: 16px;
+        }
+
+
+
+        /* ================= ANIMATIONS ================= */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ================= LANDING ================= */
+        .landing {
+            max-width: 1200px;
+            margin: auto;
+            padding: 80px 24px 60px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #03163d, #4097f4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: auto;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        /* INFO BOXES */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+            margin-bottom: 90px;
+        }
+
+        .info-box {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 25px 55px rgba(2, 6, 23, 0.25);
+            border-top: 6px solid #4097f4;
+            animation: fadeInUp 0.6s ease-out backwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-box:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .info-box:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .info-box:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .info-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 32px 64px rgba(2, 6, 23, 0.3);
+        }
+
+        .info-box h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .info-box p {
+            font-size: 14.5px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* VIDEO */
+        .demo-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 90px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .demo-text h2 {
+            font-size: 32px;
+            margin-bottom: 14px;
+        }
+
+        .demo-video {
+            background: #ffffff;
+            padding: 14px;
+            border-radius: 22px;
+            box-shadow: 0 35px 80px rgba(2, 6, 23, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .demo-video:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 40px 90px rgba(2, 6, 23, 0.4);
+        }
+
+        .demo-video iframe {
+            width: 100%;
+            height: 300px;
+            border-radius: 16px;
+            border: none;
+        }
+
+        /* WHY US */
+        .features {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .features h2 {
+            font-size: 32px;
+            margin-bottom: 32px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #eef3f8, #ffffff);
+            padding: 28px 24px;
+            border-radius: 20px;
+            box-shadow: 0 20px 45px rgba(2, 6, 23, 0.25);
+            font-weight: 800;
+            color: #2157c3;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            animation: fadeInUp 0.6s ease-out backwards;
+            min-height: 200px;
+        }
+
+        .feature-card .card-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .feature-card .card-title {
+            font-size: 15px;
+            margin: 0 0 12px;
+            line-height: 1.35;
+            font-weight: 800;
+            color: #2157c3;
+        }
+
+        .feature-card .card-desc {
+            font-size: 13px;
+            font-weight: 500;
+            color: #475569;
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+
+        .feature-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .feature-card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .feature-card:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .feature-card:nth-child(8) {
+            animation-delay: 0.4s;
+        }
+
+        .feature-card:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        .feature-card:nth-child(10) {
+            animation-delay: 0.5s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 35px 70px rgba(2, 6, 23, 0.35);
+        }
+
+        @media (max-width: 1000px) {
+            .feature-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                min-height: auto;
+            }
+        }
+
+        /* ================= LOGIN ================= */
+        .login-wrapper {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 45px 90px rgba(22, 36, 54, 0.6);
+            margin-bottom: 100px;
+            animation: scaleIn 0.8s ease-out 0.3s backwards;
+        }
+
+        .login-visual {
+            flex: 1;
+            background:
+                linear-gradient(rgba(248, 248, 248, 0.65),
+                    rgba(250, 251, 252, 0.9)),
+                url("https://images.picxy.com/cache/2020/9/5/d3e7d63410fe48604e632422833c8ae0.jpg");
+            background-size: cover;
+            background-position: center;
+            padding: 80px;
+            display: flex;
+            align-items: center;
+            animation: fadeIn 0.6s ease-out 0.5s backwards;
+        }
+
+        .login-visual h2 {
+            font-size: 38px;
+            font-weight: 900;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 60px 52px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.6s ease-out 0.6s backwards;
+        }
+
+        .brand .brand-logo {
+            height: 56px;
+            width: auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(33, 87, 195, 0.3);
+        }
+
+        h3 {
+            font-size: 36px;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 14.5px;
+            color: #475569;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        form {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 24px;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #2157c3;
+            box-shadow: 0 0 0 3px rgba(33, 87, 195, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #2157c3, #4097f4);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(33, 87, 195, 0.4);
+        }
+
+        .auth-footer {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #475569;
+            text-align: center;
+        }
+
+        .auth-footer a {
+            color: #2157c3;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        @media (max-width: 900px) {
+
+            .demo-section,
+            .login-wrapper {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                flex-wrap: wrap;
+                padding: 10px 16px;
+            }
+
+            .nav-center {
+                order: 3;
+                flex: 1 1 100%;
+                margin-top: 8px;
+            }
+
+            .nav-title {
+                font-size: 28px;
+            }
+        }
+
+        .translate-wrap {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 9999;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            box-shadow: 0 6px 24px rgba(2, 6, 23, 0.15);
+            animation: translateFadeIn 0.5s ease-out;
+        }
+
+        .translate-wrap:hover {
+            box-shadow: 0 8px 28px rgba(33, 87, 195, 0.25);
+            transform: translateY(-2px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        @keyframes translateFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .translate-wrap .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        .translate-wrap .goog-te-gadget {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px !important;
+        }
+
+        .translate-wrap .goog-te-gadget-simple {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+        }
+
+        .translate-wrap .goog-te-menu-value span {
+            color: #1e293b !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="translate-wrap">
+        <div id="google_translate_element"></div>
+    </div>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                { pageLanguage: 'en', includedLanguages: 'en,hi,gu,ta,te,kn,ml,mr,ur', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- ================= NAVBAR ================= -->
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="/"><img src="/static/logo1.jpeg" alt="Logo" class="nav-logo"></a>
+        </div>
+
+        <div class="nav-center">
+            <span class="nav-title"><span class="nav-title-kaam">KAAM </span><span
+                    class="nav-title-bharat">BHARAT</span></span>
+        </div>
+
+        <div class="nav-right">
+            <a href="#login-section" class="login-hover">
+                <span class="login-text">Login / Register</span>
+            </a>
+
+            <div class="helpline-hover">
+                <span class="helpline-icon">📞</span>
+                <span class="helpline-text">Helpline</span>
+                <span class="helpline-number">0394-735574</span>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+
+    <!-- ================= LANDING ================= -->
+    <section class="landing">
+
+        <div class="hero">
+            <h1>
+                <span class="tagline">
+                    “Because the hands that build our cities deserve better opportunities.”
+                </span>
+            </h1>
+
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <h3>Verified Jobs</h3>
+                <p>Only genuine contractors and verified job listings.</p>
+            </div>
+            <div class="info-box">
+                <h3>Location Based Hiring</h3>
+                <p>Find jobs near you without migrating.</p>
+            </div>
+            <div class="info-box">
+                <h3>Transparent Wages</h3>
+                <p>Clear pay details before you apply.</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <div class="demo-text">
+                <h2>See How It Works</h2>
+                <p>
+                    Workers can apply, confirm jobs, manage schedules, and build
+                    work history. Contractors can hire efficiently and manage workforce.
+                </p>
+            </div>
+
+            <div class="demo-video">
+                <iframe src="/static/Demo.mp4" title="Demo Video" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- ================= LOGIN BELOW VIDEO ================= -->
+        <div class="login-wrapper" id="login-section">
+
+            <div class="login-visual">
+                <div>
+                    <h2>Job Portal for Daily Wage Workers</h2>
+                </div>
+            </div>
+
+            <div class="login-form">
+
+                <div class="brand">
+                    <img src="/static/logo1.jpeg" alt="Logo" class="brand-logo">
+                </div>
+
+                <h3>Welcome</h3>
+                <p class="subtitle">Login using your registered mobile number</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, msg in messages %}
+                <div class="flash-msg {{ category }}" {% if category=='error'
+                    %}style="margin-bottom:12px; padding:10px; border-radius:10px; font-size:14px; background:#fee2e2; color:#991b1b;"
+                    {% elif category=='success'
+                    %}style="margin-bottom:12px; padding:10px; border-radius:10px; font-size:14px; background:#dcfce7; color:#166534;"
+                    {% else %}style="margin-bottom:12px; padding:10px; border-radius:10px; font-size:14px;" {% endif %}>
+                    {{ msg }}</div>
+                {% endfor %}
+                {% endwith %}
+
+                <div id="recaptcha-container"></div>
+
+                <!-- LOGIN FORM -->
+                <form id="login-form" method="POST" action="/login">
+                    <label for="phone-input">Phone Number</label>
+                    <input id="phone-input" type="text" name="phone" placeholder="10-digit mobile (e.g. 9876543210)"
+                        required maxlength="10" pattern="[6-9][0-9]{9}"
+                        title="Enter valid 10-digit Indian mobile number">
+                    <div id="otp-section" style="display:none;">
+                        <label for="otp-input">Enter OTP</label>
+                        <input id="otp-input" type="text" placeholder="••••" maxlength="6" inputmode="numeric"
+                            pattern="[0-9]+">
+                    </div>
+                    <div id="auth-error" class="error" style="display:none; color:#dc2626; margin-bottom:12px;"></div>
+                    <button type="submit" id="login-btn">Continue</button>
+                </form>
+
+                <div class="auth-footer">
+                    New user?
+                    <a href="/register">Register here</a>
+                    {% if use_firebase %}
+                    <br><a href="/login?legacy=1" style="font-size:13px; color:#64748b;">Having trouble? Use phone
+                        verification</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= WHY US ================= -->
+        <div class="features">
+            <h2>Why Hire From Us</h2>
+
+            <p style="max-width: 860px; margin: 0 auto 48px; font-size: 16px; line-height: 1.8; color: #334155;">
+                Our platform is designed to eliminate uncertainty, inefficiency, and unfair practices
+                in daily-wage hiring. Whether you are a contractor managing large projects or a worker
+                seeking dignified employment, we ensure transparency, reliability, and speed.
+            </p>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+                    <span class="card-icon">🔹</span>
+                    <h4 class="card-title">10+ Verified Worker Skills</h4>
+                    <p class="card-desc">Skilled labour across construction, factory work, electrical, plumbing,
+                        cleaning, loading, agriculture, security, and more — all verified.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">📍</span>
+                    <h4 class="card-title">Location-Based Workforce</h4>
+                    <p class="card-desc">Hire workers near your job site to reduce delays, travel costs, and worker
+                        drop-outs.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">🛡️</span>
+                    <h4 class="card-title">Verified Contractors & Jobs</h4>
+                    <p class="card-desc">Every job post is linked to a verified contractor, ensuring trust and
+                        accountability.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">💰</span>
+                    <h4 class="card-title">Transparent Wage System</h4>
+                    <p class="card-desc">Daily wages, work duration, facilities, and shift timings are clearly visible
+                        before applying.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">⚙️</span>
+                    <h4 class="card-title">Fast Hiring Process</h4>
+                    <p class="card-desc">Post a job, receive interest, select workers, and confirm — all within minutes.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">📊</span>
+                    <h4 class="card-title">Work History & Ratings</h4>
+                    <p class="card-desc">Contractors can view worker job history and ratings, while workers build a
+                        trusted work profile.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">🕒</span>
+                    <h4 class="card-title">Schedule & Capacity Control</h4>
+                    <p class="card-desc">Automatic capacity limits and date-locking prevent overbooking and scheduling
+                        conflicts.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">🧾</span>
+                    <h4 class="card-title">Facilities Visibility</h4>
+                    <p class="card-desc">Food, stay, transport, and ESI/PF options are clearly marked, improving worker
+                        confidence and retention.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">🧠</span>
+                    <h4 class="card-title">Designed for Real-World Labour Markets</h4>
+                    <p class="card-desc">Built after studying ground-level labour challenges — not copied from generic
+                        job portals.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="card-icon">🏆</span>
+                    <h4 class="card-title">ImpactThon Recognized Platform</h4>
+                    <p class="card-desc">Showcased at ImpactThon by KSV University as a solution empowering daily-wage
+                        workers with dignity.</p>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+
+    {% if use_firebase %}
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="/static/js/firebase-auth.js"></script>
+    <script>
+        (function () {
+            var form = document.getElementById('login-form');
+            var phoneInput = document.getElementById('phone-input');
+            var otpSection = document.getElementById('otp-section');
+            var otpInput = document.getElementById('otp-input');
+            var loginBtn = document.getElementById('login-btn');
+            var errorEl = document.getElementById('auth-error');
+
+            function showError(msg) {
+                errorEl.textContent = msg;
+                errorEl.style.display = 'block';
+            }
+            function hideError() {
+                errorEl.textContent = '';
+                errorEl.style.display = 'none';
+            }
+
+            fetch('/api/firebase-config', { credentials: 'same-origin' })
+                .then(function (r) { return r.json(); })
+                .then(function (res) {
+                    if (!res.ok || !res.config) {
+                        errorEl.innerHTML = 'Firebase not ready. <a href="/login?legacy=1" style="color:#2157c3; font-weight:700;">Use phone verification</a>';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                    window.FirebaseAuthHelper.init(res.config);
+
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        hideError();
+                        var phone = phoneInput.value.trim();
+
+                        if (!otpSection.style.display || otpSection.style.display === 'none') {
+                            loginBtn.disabled = true;
+                            loginBtn.textContent = 'Sending OTP...';
+                            window.FirebaseAuthHelper.sendOTP(phone).then(function (result) {
+                                loginBtn.disabled = false;
+                                if (result.success) {
+                                    otpSection.style.display = 'block';
+                                    phoneInput.disabled = true;
+                                    loginBtn.textContent = 'Verify OTP';
+                                    otpInput.focus();
+                                } else {
+                                    loginBtn.textContent = 'Continue';
+                                    showError(result.error || 'Failed to send OTP');
+                                }
+                            });
+                        } else {
+                            var code = otpInput.value.trim();
+                            if (!code) { showError('Please enter OTP'); return; }
+                            loginBtn.disabled = true;
+                            loginBtn.textContent = 'Verifying...';
+                            window.FirebaseAuthHelper.verifyOTP(code).then(function (result) {
+                                if (result.success) {
+                                    fetch('/api/auth/login', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ idToken: result.idToken }),
+                                        credentials: 'same-origin'
+                                    }).then(function (r) { return r.json(); })
+                                        .then(function (data) {
+                                            if (data.ok && data.redirect) {
+                                                window.location.href = data.redirect;
+                                            } else {
+                                                loginBtn.disabled = false;
+                                                loginBtn.textContent = 'Verify OTP';
+                                                showError(data.error || 'Login failed');
+                                            }
+                                        }).catch(function () {
+                                            loginBtn.disabled = false;
+                                            loginBtn.textContent = 'Verify OTP';
+                                            showError('Login failed');
+                                        });
+                                } else {
+                                    loginBtn.disabled = false;
+                                    showError(result.error || 'Invalid OTP');
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch(function () {
+                    errorEl.innerHTML = 'Could not connect. <a href="/login?legacy=1" style="color:#2157c3; font-weight:700;">Use phone verification</a>';
+                    errorEl.style.display = 'block';
+                });
+        })();
+    </script>
+    {% endif %}
+
+</body>
+
+</html>

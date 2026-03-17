@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP | Kaam Bharat</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eef3f8 0%, #4097f4 100%) no-repeat fixed;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 32px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .brand {
+            margin-bottom: 22px;
+        }
+
+        .brand-logo {
+            height: 56px;
+            width: auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(33, 87, 195, 0.3);
+        }
+
+        .auth-nav {
+            margin-bottom: 20px;
+        }
+
+        .auth-nav a {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2157c3;
+            text-decoration: none;
+        }
+
+        .auth-nav a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin: 0 0 8px;
+            color: #020617;
+        }
+
+        .subtitle {
+            font-size: 14.5px;
+            color: #475569;
+            margin-bottom: 26px;
+        }
+
+        .error {
+            margin-bottom: 16px;
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        form {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid #cbd5e1;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 6px;
+            margin-bottom: 24px;
+        }
+
+        input:focus {
+            border-color: #020617;
+            box-shadow: 0 0 0 3px rgba(50, 156, 249, 0.35);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #2157c3, #4097f4);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .resend {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .resend a {
+            color: #0b68d9;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .auth-footer {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .auth-footer a {
+            color: #2157c3;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .translate-wrap {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 9999;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            box-shadow: 0 6px 24px rgba(2, 6, 23, 0.15);
+            animation: translateFadeIn 0.5s ease-out;
+        }
+
+        .translate-wrap:hover {
+            box-shadow: 0 8px 28px rgba(33, 87, 195, 0.25);
+            transform: translateY(-2px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        @keyframes translateFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .translate-wrap .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        .translate-wrap .goog-te-gadget {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px !important;
+        }
+
+        .translate-wrap .goog-te-gadget-simple {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+        }
+
+        .translate-wrap .goog-te-menu-value span {
+            color: #1e293b !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="translate-wrap">
+        <div id="google_translate_element"></div>
+    </div>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                { pageLanguage: 'en', includedLanguages: 'en,hi,gu,ta,te,kn,ml,mr,ur', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div class="auth-card">
+        <div class="brand">
+            <a href="/"><img src="/static/logo1.jpeg" alt="Kaam Bharat" class="brand-logo"></a>
+        </div>
+        <div class="auth-nav"><a href="/login">← Back to Login</a></div>
+        <h2>Verify OTP</h2>
+        <p class="subtitle">Enter the one-time password sent to your mobile number</p>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="POST">
+            <input type="text" name="otp" placeholder="••••" required maxlength="6" inputmode="numeric"
+                pattern="[0-9]+">
+            <button type="submit">Verify</button>
+        </form>
+        <div class="resend">Didn’t receive the code? <a href="/resend-otp">Resend OTP</a></div>
+        <div class="auth-footer">New user? <a href="/register">Register here</a></div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+{% extends "base_app.html" %}
+{% block title %}Manager Dashboard | Kaam Bharat{% endblock %}
+{% block extra_css %}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 24px;
+    }
+
+    .top-bar {
+        background: #ffffff;
+        padding: 18px 26px;
+        border-radius: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 26px;
+        box-shadow: 0 20px 40px rgba(2, 6, 23, 0.25);
+    }
+
+    .top-bar h2 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: #020617;
+    }
+
+    .post-job-wrapper {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .post-job-wrapper .btn.primary {
+        padding: 16px 36px;
+        font-size: 16px;
+        font-weight: 800;
+        border-radius: 14px;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-title {
+        margin: 30px 0 18px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #020617;
+    }
+
+    .jobs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
+    }
+
+    .job-card {
+        background: #ffffff;
+        border-radius: 26px;
+        padding: 26px;
+        box-shadow: 0 28px 60px rgba(2, 6, 23, 0.35);
+    }
+
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+    .job-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 900;
+        color: #020617;
+    }
+
+    .badge {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .job-row {
+        font-size: 14.5px;
+        color: #475569;
+        margin: 6px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .info-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .shift-badge {
+        margin-left: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .shift-badge.day {
+        background: rgba(234, 179, 8, 0.2);
+        color: #6b2f06;
+    }
+
+    .shift-badge.night {
+        background: rgba(59, 130, 246, 0.2);
+        color: #001a4d;
+    }
+
+    .worker-count {
+        display: inline-block;
+        background: rgba(253, 224, 71, 0.3);
+        color: #854d0e;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 800;
+        margin: 8px 0;
+    }
+
+    .facilities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .facility {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .facility img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .facility.yes {
+        background: rgba(34, 197, 94, 0.2);
+        color: #0d3f2c;
+    }
+
+    .facility.no {
+        background: rgba(239, 68, 68, 0.2);
+        color: #991b1b;
+    }
+
+    @media (max-width: 900px) {
+        .jobs-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="top-bar">
+        <h2>Welcome, {{ manager_name }}</h2>
+    </div>
+    <div class="post-job-wrapper">
+        <a href="/post-job" class="btn primary">+ Post New Job</a>
+    </div>
+    <h3 class="section-title">Your Jobs</h3>
+    {% if jobs %}
+    <div class="jobs-grid">
+        {% for job in jobs %}
+        <div class="job-card">
+            <div class="job-header">
+                <h3>{{ job.title }}</h3>
+                <span class="badge">{{ job.category }}</span>
+            </div>
+            <p class="job-row"><img src="/static/icons/location.png" class="info-icon" alt=""> {{ job.location }}</p>
+            <p class="job-row"><img src="/static/icons/money.png" class="info-icon" alt=""> ₹{{ job.wage }}/day • {{
+                job.duration_days }} day{{ 's' if job.duration_days > 1 else '' }}</p>
+            <p class="job-row"><img src="/static/icons/date.png" class="info-icon" alt=""> {{ job.work_date }}</p>
+            <p class="job-row"><img src="/static/icons/time.png" class="info-icon" alt=""> {{ job.start_time_ampm }} –
+                {{ job.end_time_ampm }} <span class="shift-badge {{ job.shift_type|lower }}">{{ job.shift_type }}
+                    Shift</span></p>
+            <div class="worker-count"><img src="/static/icons/users.png" width="14" alt=""> Workers: {{
+                job_capacity.get(job.id, 0) }} / {{ job.required_workers }}</div>
+            <div class="facilities">
+                <span class="facility {% if job.food %}yes{% else %}no{% endif %}"><img src="/static/icons/food.png"
+                        alt=""> Food</span>
+                <span class="facility {% if job.stay %}yes{% else %}no{% endif %}"><img src="/static/icons/stay.png"
+                        alt=""> Stay</span>
+                <span class="facility {% if job.transport %}yes{% else %}no{% endif %}"><img
+                        src="/static/icons/transportation.png" alt=""> Transport</span>
+                <span class="facility {% if job.esi_pf %}yes{% else %}no{% endif %}"><img src="/static/icons/esi.png"
+                        alt=""> ESI / PF</span>
+            </div>
+            <a href="/job/{{ job.id }}/applications" class="btn success">View Interested Workers</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="job-card">No jobs posted yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

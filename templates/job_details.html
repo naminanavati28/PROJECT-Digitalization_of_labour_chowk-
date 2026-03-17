@@ -1,0 +1,176 @@
+{% extends "base_app.html" %}
+{% block title %}Job Details | Kaam Bharat{% endblock %}
+{% block extra_css %}
+<style>
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 24px;
+    }
+
+    .page-header {
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 26px;
+        padding: 26px 28px;
+        margin-bottom: 28px;
+        text-align: center;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .page-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 800;
+    }
+
+    .mini-back {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #f7f8fb;
+        background: linear-gradient(135deg, #2157c3, #2157c3);
+        border-radius: 999px;
+        text-decoration: none;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 26px;
+        padding: 30px 28px;
+        margin-bottom: 26px;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+    }
+
+    .card h3 {
+        margin-top: 0;
+        margin-bottom: 18px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #020617;
+    }
+
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14.5px;
+    }
+
+    .details-table th {
+        text-align: left;
+        padding: 12px 10px;
+        width: 32%;
+        font-weight: 700;
+        color: #475569;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .details-table td {
+        padding: 12px 10px;
+        color: #020617;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .action-bar {
+        margin-top: 22px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .status.confirmed {
+        margin-top: 18px;
+        padding: 14px 18px;
+        border-radius: 16px;
+        font-weight: 700;
+        background: rgba(34, 197, 94, 0.2);
+        color: #166534;
+    }
+
+    .status.rejected {
+        color: #dc2626;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Job Details</h2>
+        <a href="/dashboard" class="mini-back">← Back to Dashboard</a>
+    </div>
+    <div class="card">
+        <h3>Job Information</h3>
+        <table class="details-table">
+            <tr>
+                <th>Title</th>
+                <td>{{ job.title }}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><a href="https://www.google.com/maps?q={{ job.latitude }},{{ job.longitude }}" target="_blank"
+                        class="btn primary">📍 View Job Location</a></td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ job.category }}</td>
+            </tr>
+            <tr>
+                <th>Wage</th>
+                <td>₹{{ job.wage }} / day</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ job.work_date }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ job.duration_days }} day(s)</td>
+            </tr>
+            <tr>
+                <th>Time</th>
+                <td>{{ job.start_time_ampm }} – {{ job.end_time_ampm }}</td>
+            </tr>
+            <tr>
+                <th>Workers</th>
+                <td>{{ confirmed_count }} / {{ job.required_workers }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="card">
+        <h3>Manager Details</h3>
+        <table class="details-table">
+            <tr>
+                <th>Name</th>
+                <td>{{ manager.name }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ manager.phone }}</td>
+            </tr>
+        </table>
+    </div>
+    {% if role == "worker" %}
+    {% if application.status == "accepted" %}
+    <div class="card">
+        <div class="action-bar">
+            <form action="/worker-response/{{ application.id }}/accept" method="post" style="display:inline;">
+                <button type="submit" class="btn success">Accept Job</button>
+            </form>
+            <form action="/worker-response/{{ application.id }}/reject" method="post" style="display:inline;">
+                <button type="submit" class="btn danger">Reject Job</button>
+            </form>
+        </div>
+    </div>
+    {% elif application.status == "worker_confirmed" %}
+    <div class="card">
+        <div class="status confirmed">You have confirmed this job</div>
+    </div>
+    {% elif application.status == "rejected" %}
+    <div class="card">
+        <div class="status rejected">❌ You rejected this job</div>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

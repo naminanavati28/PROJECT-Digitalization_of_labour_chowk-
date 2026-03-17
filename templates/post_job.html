@@ -1,0 +1,403 @@
+{% extends "base_app.html" %}
+{% block title %}Post Job | Kaam Bharat{% endblock %}
+{% block extra_css %}
+<style>
+    .page-wrapper {
+        max-width: 860px;
+        margin: auto;
+        padding: 24px;
+    }
+
+    .mini-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 18px;
+        padding: 7px 14px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #f8f9fb;
+        background: linear-gradient(135deg, #2157c3, #2157c3);
+        border-radius: 999px;
+        text-decoration: none;
+    }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 20px;
+        padding: 40px 38px;
+        box-shadow: 0 50px 110px rgba(0, 0, 0, 0.35);
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 36px;
+    }
+
+    .form-header h2 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 800;
+        color: #020617;
+    }
+
+    .form-header p {
+        margin-top: 6px;
+        font-size: 14.5px;
+        color: #475569;
+    }
+
+    .form-section {
+        margin-bottom: 38px;
+        padding-bottom: 28px;
+        border-bottom: 1px dashed #e5e7eb;
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+    }
+
+    .form-section h3 {
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: 800;
+        color: #020617;
+        text-transform: uppercase;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        font-size: 13.5px;
+        color: #334155;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid #cbd5e1;
+        font-size: 14px;
+        background: #fff;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #010b1a;
+        box-shadow: 0 0 0 4px rgba(73, 168, 246, 0.4);
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .row .form-group {
+        flex: 1;
+        min-width: 180px;
+    }
+
+    .checkbox-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 16px;
+        margin-top: 6px;
+    }
+
+    .checkbox-grid label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #f8fafc, #fff);
+        border: 1px solid #e2e8f0;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 18px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, #2157c3, #2157c3);
+        color: #fcfdfe;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+        .form-card {
+            padding: 30px 22px;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-wrapper">
+    <a href="/dashboard" class="mini-back">← Back to Dashboard</a>
+    <div class="form-card">
+        <div class="form-header">
+            <h2>Post a New Job</h2>
+            <p>Create a job listing and reach workers instantly</p>
+        </div>
+        <form method="POST">
+            <div class="form-section">
+                <h3>Job Details</h3>
+                <div class="form-group"><label>Job Title</label><input type="text" name="title" required></div>
+                <div class="form-group">
+                    <label>Job Category</label>
+                    <select name="category">
+                        <option value="">Job Category</option>
+                        <option>Factory & Warehouse work</option>
+                        <option>Construction & labour work</option>
+                        <option>Agricultural work</option>
+                        <option>Outdoor work</option>
+                        <option>Event & temporary work</option>
+                        <option>Delivery & transport work</option>
+                        <option>Cleaning & maintenance work</option>
+                        <option>Repair & installation work</option>
+                        <option>Security & surveillance work</option>
+                        <option>Hospitality & support services</option>
+                        <option>Onsite operations</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Work Location</label>
+                    <p style="font-size:12px; margin-bottom:6px; color:#64748b;">Search a place or drag the pin – map
+                        location is used and auto-fills the address</p>
+                    <input type="text" name="location" id="location-input"
+                        placeholder="Search address or move the pin – address auto-fills from map" required
+                        autocomplete="off">
+                    <div id="map" style="height:300px;border-radius:16px;margin-top:12px;"></div>
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Work Schedule</h3>
+                <div class="form-group"><label>Date of Work</label><input type="date" name="work_date" min="{{ today }}"
+                        required></div>
+                <div class="row">
+                    <div class="form-group"><label>Start Time</label><input type="time" name="start_time" required>
+                    </div>
+                    <div class="form-group"><label>End Time</label><input type="time" name="end_time" required></div>
+                </div>
+                <div class="form-group"><label>Duration (Days)</label><input type="number" name="duration_days" min="1"
+                        value="1" required></div>
+            </div>
+            <div class="form-section">
+                <h3>Payment & Capacity</h3>
+                <div class="row">
+                    <div class="form-group"><label>Daily Wage (₹)</label><input type="number" name="wage" min="0"
+                            required></div>
+                    <div class="form-group"><label>Workers Required</label><input type="number" name="required_workers"
+                            min="1" required></div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Facilities</h3>
+                <div class="checkbox-grid">
+                    <label><input type="checkbox" name="food"> Food</label>
+                    <label><input type="checkbox" name="stay"> Stay</label>
+                    <label><input type="checkbox" name="transport"> Transport</label>
+                    <label><input type="checkbox" name="esi_pf"> ESI / PF</label>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Post Job</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    function initMap() {
+        const defaultLoc = { lat: 23.0225, lng: 72.5714 };
+        const map = new google.maps.Map(document.getElementById("map"), { center: defaultLoc, zoom: 13 });
+        const marker = new google.maps.Marker({ position: defaultLoc, map: map, draggable: true });
+        const locationInput = document.getElementById("location-input");
+        const form = document.querySelector("form");
+        const geocoder = new google.maps.Geocoder();
+
+        function updateLatLng(lat, lng) {
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lng;
+            marker.setPosition({ lat: lat, lng: lng });
+            map.panTo({ lat: lat, lng: lng });
+        }
+
+        function isCoordinateLike(str) {
+            if (!str || typeof str !== "string") return true;
+            var s = str.trim();
+            if (/^-?\d+\.?\d*\s*,\s*-?\d+\.?\d*$/.test(s)) return true;
+            if (/^-?\d+\.?\d*\s+[-−]\s+\d+\.?\d*$/.test(s)) return true;
+            if (/^[\d\s.,°'\"NSEW-]+$/i.test(s) && /\d/.test(s)) return true;
+            return false;
+        }
+
+        function formatAddressFromComponents(result) {
+            var area = "", city = "", state = "";
+            if (!result || !result.address_components) return null;
+            var comps = result.address_components;
+            for (var i = 0; i < comps.length; i++) {
+                var c = comps[i];
+                var t = c.types || [];
+                if (t.indexOf("sublocality_level_1") >= 0 || t.indexOf("sublocality") >= 0 || t.indexOf("neighborhood") >= 0) {
+                    if (!area) area = c.long_name;
+                } else if (t.indexOf("sublocality_level_2") >= 0 && !area) {
+                    area = c.long_name;
+                } else if (t.indexOf("locality") >= 0) {
+                    city = c.long_name;
+                } else if (t.indexOf("administrative_area_level_1") >= 0) {
+                    state = c.long_name;
+                } else if (t.indexOf("administrative_area_level_2") >= 0 && !city) {
+                    city = c.long_name;
+                } else if (t.indexOf("postal_town") >= 0 && !city) {
+                    city = c.long_name;
+                } else if (t.indexOf("route") >= 0 && !area) {
+                    area = c.long_name;
+                }
+            }
+            if (!area && city) area = city;
+            var parts = [area, city, state].filter(Boolean);
+            return parts.length ? parts.join(", ") : null;
+        }
+
+        function parseFormattedForPlaceName(fa) {
+            if (!fa || isCoordinateLike(fa)) return null;
+            var parts = fa.split(",").map(function (p) { return p.trim(); }).filter(Boolean);
+            if (parts.length < 2) return null;
+            var last = parts[parts.length - 1];
+            if (/\bIndia\b/i.test(last)) parts.pop();
+            if (parts.length >= 2) {
+                return parts.slice(0, 3).join(", ");
+            }
+            return null;
+        }
+
+        function reverseGeocode(lat, lng, callback) {
+            geocoder.geocode({
+                location: { lat: lat, lng: lng },
+                language: "en"
+            }, function (results, status) {
+                if (status !== "OK" || !results || !results.length) {
+                    callback("Selected location");
+                    return;
+                }
+                var addr = null;
+                for (var i = 0; i < Math.min(results.length, 5); i++) {
+                    addr = formatAddressFromComponents(results[i]);
+                    if (addr && !isCoordinateLike(addr)) break;
+                }
+                if (!addr || isCoordinateLike(addr)) {
+                    for (var j = 0; j < results.length; j++) {
+                        var fa = results[j].formatted_address || "";
+                        addr = parseFormattedForPlaceName(fa);
+                        if (addr) break;
+                    }
+                }
+                callback(addr && !isCoordinateLike(addr) ? addr : "Selected location");
+            });
+        }
+
+        function syncLocationFromMap() {
+            var pos = marker.getPosition();
+            var lat = pos.lat();
+            var lng = pos.lng();
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lng;
+            reverseGeocode(lat, lng, function (addr) {
+                locationInput.value = addr;
+            });
+        }
+
+        function syncMapFromAddress(address, done) {
+            if (!address || address.trim() === "") { if (done) done(false); return; }
+            geocoder.geocode({
+                address: address,
+                region: "in",
+                bounds: { south: 8, north: 35, west: 68, east: 97 }
+            }, function (results, status) {
+                if (status === "OK" && results[0] && results[0].geometry) {
+                    var loc = results[0].geometry.location;
+                    updateLatLng(loc.lat(), loc.lng());
+                    reverseGeocode(loc.lat(), loc.lng(), function (addr) {
+                        locationInput.value = addr;
+                    });
+                    if (done) done(true);
+                } else {
+                    if (done) done(false);
+                }
+            });
+        }
+
+        var autocomplete = new google.maps.places.Autocomplete(locationInput, {
+            types: ["establishment", "geocode"],
+            componentRestrictions: { country: "in" }
+        });
+        autocomplete.addListener("place_changed", function () {
+            var place = autocomplete.getPlace();
+            if (place.geometry && place.geometry.location) {
+                var lat = place.geometry.location.lat();
+                var lng = place.geometry.location.lng();
+                updateLatLng(lat, lng);
+                reverseGeocode(lat, lng, function (addr) {
+                    locationInput.value = addr;
+                });
+            }
+        });
+
+        locationInput.addEventListener("blur", function () {
+            var val = locationInput.value.trim();
+            if (val && !isCoordinateLike(val)) {
+                syncMapFromAddress(val);
+            }
+        });
+
+        marker.addListener("dragend", syncLocationFromMap);
+        map.addListener("click", function (e) {
+            updateLatLng(e.latLng.lat(), e.latLng.lng());
+            syncLocationFromMap();
+        });
+
+        form.addEventListener("submit", function (e) {
+            var lat = document.getElementById("latitude").value;
+            var lng = document.getElementById("longitude").value;
+            if (!lat || !lng) {
+                var val = locationInput.value.trim();
+                if (val) {
+                    e.preventDefault();
+                    syncMapFromAddress(val, function (ok) {
+                        if (ok) form.submit();
+                        else alert("Please select a location on the map or choose from suggestions.");
+                    });
+                } else {
+                    e.preventDefault();
+                    alert("Please select a location on the map.");
+                }
+                return;
+            }
+            e.preventDefault();
+            reverseGeocode(parseFloat(lat), parseFloat(lng), function (addr) {
+                locationInput.value = addr;
+                form.submit();
+            });
+        });
+
+        updateLatLng(defaultLoc.lat, defaultLoc.lng);
+        syncLocationFromMap();
+    }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&libraries=places&callback=initMap"></script>
+{% endblock %}
