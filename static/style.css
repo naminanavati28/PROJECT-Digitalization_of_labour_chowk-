@@ -1,0 +1,203 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+}
+
+/* ========== UNIFIED BRAND / LOGO ========== */
+.nav-logo {
+    height: 52px;
+    width: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(33, 87, 195, 0.3);
+}
+
+.auth-logo {
+    height: 56px;
+    width: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(33, 87, 195, 0.3);
+}
+
+
+/* BASE */
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #f6f8fb;
+    color: #1f2937;
+}
+
+/* LAYOUT */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 24px;
+}
+
+/* TOP BAR */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+/* TITLES */
+h2 {
+    font-size: 22px;
+    margin: 0;
+}
+h3 {
+    margin: 0 0 8px;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.btn.primary { background: #2563eb; color: #fff; }
+.btn.success { background: #16a34a; color: #fff; }
+.btn.danger  { background: #dc2626; color: #fff; }
+
+.btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* JOB CARD */
+.job-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    animation: fadeUp 0.3s ease;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+/* TEXT */
+.muted {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.section-title {
+    margin: 24px 0 12px;
+    font-size: 18px;
+}
+
+/* EMPTY STATE */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    color: #6b7280;
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .job-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+body.auth-bg {
+    background: #f5f7fb;
+    font-family: Inter, sans-serif;
+}
+
+.auth-card {
+    width: 360px;
+    margin: 80px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.auth-card.wide {
+    width: 420px;
+}
+
+.auth-card h2 {
+    margin-bottom: 6px;
+}
+
+.auth-card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 500;
+    display: block;
+    margin-top: 12px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.btn.primary {
+    width: 100%;
+    margin-top: 20px;
+    background: #2563eb;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 15px;
+}
+.flash {
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin: 12px auto;
+    max-width: 600px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.flash.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.flash.error {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
